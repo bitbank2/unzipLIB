@@ -74,7 +74,6 @@ typedef struct zipFile
     int32_t iSize; // file size
     uint8_t *pData; // memory file pointer
     void * fHandle; // class pointer to File/SdFat or whatever you want
-    ZIP_OPEN_CALLBACK *pfnOpen;
     ZIP_CLOSE_CALLBACK *pfnClose;
     ZIP_READ_CALLBACK *pfnRead;
     ZIP_SEEK_CALLBACK *pfnSeek;

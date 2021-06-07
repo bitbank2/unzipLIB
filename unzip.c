@@ -348,7 +348,6 @@ extern unzFile ZEXPORT unzOpen (const char *path, uint8_t *pData, uint32_t u32Da
         pzf->iSize = u32DataSize;
         pzf->pData = pData;
     } else {
-        pzf->pfnOpen = pfnOpen;
         pzf->pfnClose = pfnClose;
         pzf->pfnRead = pfnRead;
         pzf->pfnSeek = pfnSeek;

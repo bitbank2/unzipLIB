@@ -344,6 +344,7 @@ extern unzFile ZEXPORT unzOpen (const char *path, uint8_t *pData, uint32_t u32Da
         // memory file
         pzf->pfnRead = readMem;
         pzf->pfnSeek = seekMem;
+        pzf->pfnClose = NULL;
         pzf->iPos = 0;
         pzf->iSize = u32DataSize;
         pzf->pData = pData;

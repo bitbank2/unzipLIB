@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "unzip.h"
+#include "../src/unzip.h"
 
 void * myOpen(const char *filename, int32_t *size) {
   printf("Attempting to open %s\n", filename);
@@ -57,6 +57,10 @@ ZIPFILE zpf;
        printf("Error opening file: %s\n", argv[1]);
        return -1;
     }
+    // Display the global comment (if any)
+    rc = unzGetGlobalComment(zHandle, (char *)szTemp, sizeof(szTemp));
+    printf("Global Comment: %s\n", szTemp);
+    
     rc = unzLocateFile(zHandle, argv[2], 2);
     if (rc != UNZ_OK) /* Report the file not found */
     {

@@ -40,9 +40,9 @@
 class UNZIP
 {
   public:
-    int open(uint8_t *pData, int iDataSize);
-    int open(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE_CALLBACK *pfnClose, ZIP_READ_CALLBACK *pfnRead, ZIP_SEEK_CALLBACK *pfnSeek);
-    void close();
+    int openZIP(uint8_t *pData, int iDataSize);
+    int openZIP(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE_CALLBACK *pfnClose, ZIP_READ_CALLBACK *pfnRead, ZIP_SEEK_CALLBACK *pfnSeek);
+    void closeZIP();
     int openCurrentFile();
     void closeCurrentFile();
     int readCurrentFile(uint8_t *buffer, int iLength);
@@ -50,9 +50,9 @@ class UNZIP
     int gotoFirstFile();
     int gotoNextFile();
     int locateFile(const char *szFilename);
-    int getFileInfo(FILEINFO *pInfo); // get info about the current file
+    int getFileInfo(ZIPFILEINFO *pInfo); // get info about the current file
     int getLastError();
-    int getComment(char *destBuffer);
+    int getGlobalComment(char *destBuffer, int iBufferSize);
 
   private:
     ZIPFILE _zip;

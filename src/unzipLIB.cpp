@@ -40,9 +40,6 @@ int UNZIP::openZIP(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE
 int UNZIP::closeZIP()
 {
     _zip.iLastError = unzClose((unzFile)_zip.zHandle);
-    if (_zip.pfnClose) {
-        (*_zip.pfnClose)(&_zip);
-    }
     return _zip.iLastError;
 } /* closeZIP() */
 
@@ -82,10 +79,18 @@ int UNZIP::locateFile(const char *szFilename)
     return _zip.iLastError;
 } /* locateFile() */
 
-//int UNZIP::getFileInfo(FILEINFO *pInfo) // get info about the current file
-//{
-    
-//} /* getFileInfo() */
+int UNZIP::getFileInfo(unz_file_info *pFileInfo, char *szFileName, int iFileNameBufferSize, void *extraField, int iExtraFieldBufferSize, char *szComment, int iCommentBufferSize) // get info about the current file
+
+{
+    return unzGetCurrentFileInfo((unzFile)_zip.zHandle,
+                            pFileInfo,
+                            szFileName,
+                            iFileNameBufferSize,
+                            extraField,
+                            iExtraFieldBufferSize,
+                            szComment,
+                            iCommentBufferSize);
+} /* getFileInfo() */
 
 int UNZIP::getLastError()
 {

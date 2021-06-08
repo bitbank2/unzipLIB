@@ -50,7 +50,7 @@ class UNZIP
     int gotoFirstFile();
     int gotoNextFile();
     int locateFile(const char *szFilename);
-//    int getFileInfo(ZIPFILEINFO *pInfo); // get info about the current file
+    int getFileInfo(unz_file_info *pFileInfo, char *szFileName, int iFilenameBufferSize, void *extraField, int iExtraFieldBufferSize, char *szComment, int iCommentBufferSize); // get info about the current file
     int getLastError();
     int getGlobalComment(char *destBuffer, int iBufferSize);
 

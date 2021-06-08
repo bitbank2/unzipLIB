@@ -342,7 +342,7 @@ extern unzFile ZEXPORT unzOpen (const char *path, uint8_t *pData, uint32_t u32Da
 
     if (unz_copyright[0]!=' ')
         return NULL;
-
+    memset(pzf, 0, sizeof(ZIPFILE));
     if (path == NULL && pData != NULL)  {
         // memory file
         pzf->pfnRead = readMem;
@@ -451,7 +451,8 @@ extern int ZEXPORT unzClose (file)
         if (s->pfile_in_zip_read!=NULL)
                 unzCloseCurrentFile(file);
 
-	(*pzf->pfnClose)(pzf);
+    if (pzf->pfnClose != NULL)
+        (*pzf->pfnClose)(pzf);
 //	TRYFREE(s);
 	return UNZ_OK;
 }

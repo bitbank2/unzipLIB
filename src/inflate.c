@@ -181,10 +181,10 @@ int windowBits;
     /* set number of window bits, free window if different */
     if (windowBits && (windowBits < 8 || windowBits > 15))
         return Z_STREAM_ERROR;
-    if (state->window != Z_NULL && state->wbits != (unsigned)windowBits) {
-        ZFREE(strm, state->window);
-        state->window = Z_NULL;
-    }
+//    if (state->window != Z_NULL && state->wbits != (unsigned)windowBits) {
+//        ZFREE(strm, state->window);
+//        state->window = Z_NULL;
+//    }
 
     /* update state and reset the rest of it */
     state->wrap = wrap;
@@ -220,13 +220,14 @@ int stream_size;
 #else
         strm->zfree = zcfree;
 #endif
-    state = (struct inflate_state FAR *)
-            ZALLOC(strm, 1, sizeof(struct inflate_state));
-    if (state == Z_NULL) return Z_MEM_ERROR;
-    Tracev((stderr, "inflate: allocated\n"));
-    strm->state = (struct internal_state FAR *)state;
+//    state = (struct inflate_state FAR *)
+//            ZALLOC(strm, 1, sizeof(struct inflate_state));
+//    if (state == Z_NULL) return Z_MEM_ERROR;
+//    Tracev((stderr, "inflate: allocated\n"));
+//    strm->state = (struct internal_state FAR *)state;
+    state = (struct inflate_state *)strm->state;
     state->strm = strm;
-    state->window = Z_NULL;
+//    state->window = Z_NULL;
     state->mode = HEAD;     /* to pass state test in inflateReset2() */
     ret = inflateReset2(strm, windowBits);
     if (ret != Z_OK) {
@@ -1277,13 +1278,13 @@ int flush;
 int ZEXPORT inflateEnd(strm)
 z_streamp strm;
 {
-    struct inflate_state FAR *state;
+//    struct inflate_state FAR *state;
     if (inflateStateCheck(strm))
         return Z_STREAM_ERROR;
-    state = (struct inflate_state FAR *)strm->state;
-    if (state->window != Z_NULL) ZFREE(strm, state->window);
-    ZFREE(strm, strm->state);
-    strm->state = Z_NULL;
+//    state = (struct inflate_state FAR *)strm->state;
+//    if (state->window != Z_NULL) ZFREE(strm, state->window);
+//    ZFREE(strm, strm->state);
+//    strm->state = Z_NULL;
     Tracev((stderr, "inflate: end\n"));
     return Z_OK;
 }

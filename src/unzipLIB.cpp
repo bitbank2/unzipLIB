@@ -19,7 +19,7 @@
 
 int UNZIP::openZIP(uint8_t *pData, int iDataSize)
 {
-    _zip.zHandle = unzOpen(szFilename, NULL, 0, &_zip, pfnOpen, pfnRead, pfnSeek, pfnClose);
+    _zip.zHandle = unzOpen(NULL, pData, iDataSize, &_zip, NULL, NULL, NULL, NULL);
     if (_zip.zHandle == NULL) {
 //       printf("Error opening file: %s\n", argv[1]);
        return -1;
@@ -37,12 +37,13 @@ int UNZIP::openZIP(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE
     return 0;
 } /* open() */
 
-void UNZIP::closeZIP()
+int UNZIP::closeZIP()
 {
-    unzClose((unzFile)_zip.zHandle);
+    _zip.iLastError = unzClose((unzFile)_zip.zHandle);
     if (_zip.pfnClose) {
         (*_zip.pfnClose)(&_zip);
     }
+    return _zip.iLastError;
 } /* closeZIP() */
 
 int UNZIP::openCurrentFile()
@@ -51,9 +52,9 @@ int UNZIP::openCurrentFile()
     return _zip.iLastError;
 } /* openCurrentFile() */
 
-void UNZIP::closeCurrentFile()
+int UNZIP::closeCurrentFile()
 {
-    _zip.iLastError = unzCloseCurrentFile(unzFile)_zip.zHandle);
+    _zip.iLastError = unzCloseCurrentFile((unzFile)_zip.zHandle);
     return _zip.iLastError;
 } /* closeCurrentFile() */
 
@@ -77,14 +78,14 @@ int UNZIP::gotoNextFile()
 } /* gotoNextFile() */
 int UNZIP::locateFile(const char *szFilename)
 {
-    _zip.iLastError = unzLocateFile((unzFile)_zip.zHandle, szFilename);
+    _zip.iLastError = unzLocateFile((unzFile)_zip.zHandle, szFilename, 2);
     return _zip.iLastError;
 } /* locateFile() */
 
-int UNZIP::getFileInfo(FILEINFO *pInfo) // get info about the current file
-{
+//int UNZIP::getFileInfo(FILEINFO *pInfo) // get info about the current file
+//{
     
-} /* getFileInfo() */
+//} /* getFileInfo() */
 
 int UNZIP::getLastError()
 {

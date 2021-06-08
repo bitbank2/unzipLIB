@@ -10,6 +10,9 @@
 #include <string.h>
 #include "zlib.h"
 #include "unzip.h"
+#include "zutil.h"
+#include "inftrees.h"
+#include "inflate.h"
 
 #ifdef STDC
 #  include <stddef.h>
@@ -964,10 +967,13 @@ extern int ZEXPORT unzOpenCurrentFile (file)
 
 	if (!Store)
 	{
+        struct inflate_state * state;
 	  pfile_in_zip_read_info->stream.zalloc = (alloc_func)0;
 	  pfile_in_zip_read_info->stream.zfree = (free_func)0;
 	  pfile_in_zip_read_info->stream.opaque = (voidpf)0; 
-      
+        pfile_in_zip_read_info->stream.state = (struct internal_state *)&pzf->ucFlate[32768]; // avoid 7k alloc
+        state = (struct inflate_state *)pfile_in_zip_read_info->stream.state;
+        state->window = pzf->ucFlate; // avoid 32k alloc here too
 	  err=inflateInit2(&pfile_in_zip_read_info->stream, -MAX_WBITS);
 	  if (err == Z_OK)
 	    pfile_in_zip_read_info->stream_initialised=1;

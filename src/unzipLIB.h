@@ -42,15 +42,15 @@ class UNZIP
   public:
     int openZIP(uint8_t *pData, int iDataSize);
     int openZIP(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE_CALLBACK *pfnClose, ZIP_READ_CALLBACK *pfnRead, ZIP_SEEK_CALLBACK *pfnSeek);
-    void closeZIP();
+    int closeZIP();
     int openCurrentFile();
-    void closeCurrentFile();
+    int closeCurrentFile();
     int readCurrentFile(uint8_t *buffer, int iLength);
     int getCurrentFilePos();
     int gotoFirstFile();
     int gotoNextFile();
     int locateFile(const char *szFilename);
-    int getFileInfo(ZIPFILEINFO *pInfo); // get info about the current file
+//    int getFileInfo(ZIPFILEINFO *pInfo); // get info about the current file
     int getLastError();
     int getGlobalComment(char *destBuffer, int iBufferSize);
 

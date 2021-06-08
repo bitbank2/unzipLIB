@@ -82,6 +82,7 @@ typedef struct zipFile
     uint8_t ucBuf[UNZ_BUFSIZE]; // local read buffer for compressed data
     uint8_t ucReadInfo[256]; // local info structure
     uint8_t ucInfo[256]; // unzFile structure
+    uint8_t ucFlate[32768+7168]; // inflate buffers
 } ZIPFILE;
 
 #if defined(STRICTUNZIP) || defined(STRICTZIPUNZIP)

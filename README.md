@@ -11,15 +11,16 @@ An 'embedded-friendly' (aka Arduino) library to extract and decompress files fro
 
 Why did you write it?
 ---------------------
-I wanted to be able to unzip files on high end MCUs for various projects and I couldn't find any libraries that would do the job. The thing that prevents most Linux open source projects from running on embedded boards is their use of the file system and heap management. There is support for malloc/free on Arduino, but it's better to control how memory is used more directly.
+I wanted to be able to unzip files on MCUs for various projects and I couldn't find any libraries that would do the job. The thing that prevents most Linux open source projects from running on embedded boards is their use of the file system and heap management. There is support for malloc/free on Arduino, but it's better to control how memory is used more directly (e.g. TCM vs FLASH vs DDR).
 <br>
 
-What's special about it?<br>
+What's special about it?
 ------------------------
 I designed the unzip library to not rely on malloc/free, but instead to have a fixed class/structure which could be managed by the user. I also removed the dependency on the file system and instead offer a set of callback hooks to allow zip files to be read from memory, SDCard or any media. These two features give it maximum flexibility to run on low end systems.
+<br>
 
-Feature summary:<br>
-----------------<br>
+Feature summary:
+----------------
 - Runs on any MCU with at least 41K of free RAM<br>
 - No external dependencies (including malloc/free, file system calls)<br>
 - unzip API implemented in C and C++<br>
@@ -28,8 +29,8 @@ Feature summary:<br>
 - Compiles on any target CPU<br>
 <br>
 
-Documentation:<br>
----------------<br>
+Documentation:
+--------------
 Detailed information about the API is in the Wiki<br>
 See the examples folder for easy starting points<br>
 <br>

@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include "../src/unzip.h"
+#include "bmp_icons.h"
 
 void * myOpen(const char *filename, int32_t *size) {
   printf("Attempting to open %s\n", filename);
@@ -52,7 +53,8 @@ ZIPFILE zpf;
        return 0;
     }
     printf("Starting unzip test...reading file %s from zip archive %s\n", argv[2], argv[1]);
-    zHandle = unzOpen(argv[1], NULL, 0, &zpf, myOpen, myRead, mySeek, myClose);
+//    zHandle = unzOpen(argv[1], NULL, 0, &zpf, myOpen, myRead, mySeek, myClose);
+    zHandle = unzOpen(NULL, bmp_icons, sizeof(bmp_icons), &zpf, NULL, NULL, NULL, NULL);
     if (zHandle == NULL) {
        printf("Error opening file: %s\n", argv[1]);
        return -1;
@@ -61,7 +63,8 @@ ZIPFILE zpf;
     rc = unzGetGlobalComment(zHandle, (char *)szTemp, sizeof(szTemp));
     printf("Global Comment: %s\n", szTemp);
     
-    rc = unzLocateFile(zHandle, argv[2], 2);
+//    rc = unzLocateFile(zHandle, argv[2], 2);
+    rc = unzLocateFile(zHandle, "key.bmp", 2);
     if (rc != UNZ_OK) /* Report the file not found */
     {
         printf("file %s not found within archive\n", argv[2]);

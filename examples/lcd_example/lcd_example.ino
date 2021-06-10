@@ -58,7 +58,7 @@ void loop() {
               zip.openCurrentFile(); // if you don't open it explicitly, readCurrentFile will fail with UNZ_PARAMERROR
               spilcdWriteString(&lcd, 0, 224, "                           ", 0xff1f, 0, FONT_12x16, DRAW_TO_LCD); // erase old name
               spilcdWriteString(&lcd, 0, 224, szName, 0xff1f, 0, FONT_12x16, DRAW_TO_LCD); // display current file name at the bottom
-              rc = zip.readCurrentFile(ucBitmap, 2102); // we know the uncompressed size of these BMP images
+              rc = zip.readCurrentFile(ucBitmap, fi.uncompressed_size); // we know the uncompressed size of these BMP images
               if (rc != fi.uncompressed_size) {
                   Serial.print("Read error, rc=");
                   Serial.println(rc, DEC);

@@ -1,6 +1,6 @@
 //
 // unzipLIB - Arduino unzip library
-// based on zlib and contrib/unzip
+// based on zlib and contrib/minizip/unzip
 // written by Larry Bank
 // bitbank@pobox.com
 //

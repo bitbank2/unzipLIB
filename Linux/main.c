@@ -44,17 +44,22 @@ int main(int argc, const char *argv[])
 {
 int rc, i;
 unzFile zHandle;
-char szTemp[1024];
+char szTemp[256];
 ZIPFILE zpf;
     
-    if (argc != 3) // unzip <zip> <file to extract>
+    if (argc != 3 && argc != 1) // unzip <zip> <file to extract>
     {
        printf("Usage: unziptest <zip file> <file to unzip within the zip>\n");
+       printf("       or unziptest (no arguments) to test mem to mem unzipping\n");
        return 0;
     }
-    printf("Starting unzip test...reading file %s from zip archive %s\n", argv[2], argv[1]);
-//    zHandle = unzOpen(argv[1], NULL, 0, &zpf, myOpen, myRead, mySeek, myClose);
-    zHandle = unzOpen(NULL, bmp_icons, sizeof(bmp_icons), &zpf, NULL, NULL, NULL, NULL);
+    if (argc == 3) {
+       printf("Starting unzip test...reading file %s from zip archive %s\n", argv[2], argv[1]);
+       zHandle = unzOpen(argv[1], NULL, 0, &zpf, myOpen, myRead, mySeek, myClose);
+    } else {
+       zHandle = unzOpen(NULL, (uint8_t *)bmp_icons, sizeof(bmp_icons), &zpf, NULL, NULL, NULL, NULL);
+    }
+
     if (zHandle == NULL) {
        printf("Error opening file: %s\n", argv[1]);
        return -1;
@@ -89,7 +94,7 @@ ZIPFILE zpf;
             break;
         }
     }
-    printf("Total bytes read = %d\n", i);
+    printf("Total bytes read = %d (reading 256 bytes at a time)\n", i);
     rc = unzCloseCurrentFile(zHandle);
     unzClose(zHandle);
   return 0;

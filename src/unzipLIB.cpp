@@ -17,7 +17,7 @@
 //===========================================================================
 #include "unzipLIB.h"
 
-int UNZIP::openZIP(uint8_t *pData, int iDataSize)
+int UNZIP::openZIP(uint8_t *pData, uint32_t iDataSize)
 {
     _zip.zHandle = unzOpen(NULL, pData, iDataSize, &_zip, NULL, NULL, NULL, NULL);
     if (_zip.zHandle == NULL) {
@@ -55,7 +55,7 @@ int UNZIP::closeCurrentFile()
     return _zip.iLastError;
 } /* closeCurrentFile() */
 
-int UNZIP::readCurrentFile(uint8_t *buffer, int iLength)
+int UNZIP::readCurrentFile(uint8_t *buffer, uint32_t iLength)
 {
     return unzReadCurrentFile((unzFile)_zip.zHandle, buffer, iLength);
 } /* readCurrentFile() */

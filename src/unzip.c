@@ -415,7 +415,8 @@ extern unzFile ZEXPORT unzOpen (const char *path, uint8_t *pData, uint32_t u32Da
 	if (err!=UNZ_OK)
 	{
 //		fclose(fin);
-        (*pzf->pfnClose)(pzf);
+		if (pzf->pfnClose != NULL)
+        	(*pzf->pfnClose)(pzf);
 		return NULL;
 	}
 
@@ -1017,7 +1018,7 @@ extern int ZEXPORT unzOpenCurrentFile (file)
 extern int ZEXPORT unzReadCurrentFile  (file, buf, len)
 	unzFile file;
 	voidp buf;
-	unsigned len;
+	uLong len;
 {
 	int err=UNZ_OK;
 	uInt iRead = 0;

@@ -40,12 +40,12 @@
 class UNZIP
 {
   public:
-    int openZIP(uint8_t *pData, int iDataSize);
+    int openZIP(uint8_t *pData, uint32_t iDataSize);
     int openZIP(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE_CALLBACK *pfnClose, ZIP_READ_CALLBACK *pfnRead, ZIP_SEEK_CALLBACK *pfnSeek);
     int closeZIP();
     int openCurrentFile();
     int closeCurrentFile();
-    int readCurrentFile(uint8_t *buffer, int iLength);
+    int readCurrentFile(uint8_t *buffer, uint32_t iLength);
     int getCurrentFilePos();
     int gotoFirstFile();
     int gotoNextFile();

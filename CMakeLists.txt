@@ -7,4 +7,10 @@ idf_component_register(
      REQUIRES arduino
 )
 
+set_source_files_properties(
+     src/inflate.c src/infback.c
+    PROPERTIES COMPILE_FLAGS
+    -Wno-implicit-fallthrough
+)
+
 project(unzipLIB)

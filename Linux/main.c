@@ -68,8 +68,8 @@ ZIPFILE zpf;
     rc = unzGetGlobalComment(zHandle, (char *)szTemp, sizeof(szTemp));
     printf("Global Comment: %s\n", szTemp);
     
-//    rc = unzLocateFile(zHandle, argv[2], 2);
-    rc = unzLocateFile(zHandle, "key.bmp", 2);
+    rc = unzLocateFile(zHandle, argv[2], 2);
+
     if (rc != UNZ_OK) /* Report the file not found */
     {
         printf("file %s not found within archive\n", argv[2]);

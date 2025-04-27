@@ -78,11 +78,12 @@ void loop() {
     if (!entry) break;
     if (entry.isDirectory() == false) {
       const char *name = entry.name();
+      const char *path = entry.path();
       const int len = strlen(name);
       if (len > 3 && strcmp(name + len - 3, "ZIP") == 0) {
         Serial.print("File: ");
         Serial.println(name);
-        rc = rc = zip.openZIP(name, myOpen, myClose, myRead, mySeek);
+        rc = rc = zip.openZIP(path, myOpen, myClose, myRead, mySeek);
         if (rc == UNZ_OK) {
           Serial.print("found zip file: ");
           Serial.println(name);

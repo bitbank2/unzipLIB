@@ -1,13 +1,15 @@
-CFLAGS=-D__LINUX__ -Wall -O2 
+CFLAGS=-D__LINUX__ -Wall -O2 -ggdb -I../src
 LIBS = 
 
-all: unzip_test
+all: libunzipLIB.a
 
-unzip_test: main.o unzip.o adler32.o crc32.o infback.o inffast.o inflate.o inftrees.o zutil.o
-	$(CC) main.o unzip.o adler32.o crc32.o infback.o inffast.o inflate.o inftrees.o zutil.o $(LIBS) -o unzip_test 
+libunzipLIB.a: unzipLIB.o unzip.o adler32.o crc32.o infback.o inffast.o inflate.o inftrees.o zutil.o
+	ar -rc libunzipLIB.a unzipLIB.o unzip.o adler32.o crc32.o infback.o inffast.o inflate.o inftrees.o zutil.o ;\
+	sudo cp libunzipLIB.a /usr/local/lib ;\
+	sudo cp ../src/unzipLIB.h /usr/local/include
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+unzipLIB.o: ../src/unzipLIB.cpp
+	$(CXX) $(CFLAGS) -c ../src/unzipLIB.cpp
 
 unzip.o: ../src/unzip.c ../src/unzip.h
 	$(CC) $(CFLAGS) -c ../src/unzip.c
@@ -34,4 +36,4 @@ zutil.o: ../src/zutil.c
 	$(CC) $(CFLAGS) -c ../src/zutil.c
 
 clean:
-	rm -rf *.o unzip_test
+	rm -rf *.o libunzipLIB.a

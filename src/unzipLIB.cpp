@@ -17,6 +17,49 @@
 //===========================================================================
 #include "unzipLIB.h"
 
+#ifdef __LINUX__
+static void * myOpen(const char *filename, int32_t *size) {
+  printf("Attempting to open %s\n", filename);
+    FILE *f;
+    size_t filesize;
+    f = fopen(filename,"r+b");
+    if (f) {
+        fseek(f, 0, SEEK_END);
+        filesize = ftell(f);
+        fseek(f, 0, SEEK_SET);
+        *size = (int32_t) filesize;
+    }
+    return (void *)f;
+} /* myOpen() */
+
+static void myClose(void *p) {
+    ZIPFILE *pzf = (ZIPFILE *)p;
+  if (pzf) fclose((FILE *)pzf->fHandle);
+} /* myClose() */
+
+static int32_t myRead(void *p, uint8_t *buffer, int32_t length) {
+    ZIPFILE *pzf = (ZIPFILE *)p;
+  if (!pzf) return 0;
+    return (int32_t)fread(buffer, 1, length, (FILE *)pzf->fHandle);
+} /* myRead() */
+
+static int32_t mySeek(void *p, int32_t position, int type) {
+    ZIPFILE *pzf = (ZIPFILE *)p;
+  if (!pzf) return 0;
+  return fseek((FILE *)pzf->fHandle, position, type);
+}
+
+int UNZIP::openZIP(const char *szFilename)
+{
+    _zip.zHandle = unzOpen(szFilename, NULL, 0, &_zip, myOpen, myRead, mySeek, myClose);
+    if (_zip.zHandle == NULL) {
+//       printf("Error opening file: %s\n", argv[1]);
+       return -1;
+    }
+    return 0;
+} /* open() */
+#endif // __LINUX__
+
 int UNZIP::openZIP(uint8_t *pData, uint32_t iDataSize)
 {
     _zip.zHandle = unzOpen(NULL, pData, iDataSize, &_zip, NULL, NULL, NULL, NULL);

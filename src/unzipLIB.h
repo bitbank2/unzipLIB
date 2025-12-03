@@ -42,6 +42,9 @@ class UNZIP
   public:
     int openZIP(uint8_t *pData, uint32_t iDataSize);
     int openZIP(const char *szFilename, ZIP_OPEN_CALLBACK *pfnOpen, ZIP_CLOSE_CALLBACK *pfnClose, ZIP_READ_CALLBACK *pfnRead, ZIP_SEEK_CALLBACK *pfnSeek);
+#ifdef __LINUX__
+    int openZIP(const char *szFilename);
+#endif
     int closeZIP();
     int openCurrentFile();
     int closeCurrentFile();
